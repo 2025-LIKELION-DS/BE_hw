@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>오늘은 장고 기초 세션하는 날</h1>
+    <h1>스터디 과제</h1>
+    <h2>이름을 적어보세요!</h2>
+    <form action="{% url 'hello' %}">
+        <textarea name="name" rows="1"></textarea>
+        <input type="submit" value="확인"><br>
+    </form>
+    <a href="../word-count">wordCount 하러 가기</a>
+</body>
+</html>

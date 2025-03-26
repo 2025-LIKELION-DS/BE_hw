@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <a href="../">index 페이지로 가기</a>
+</head>
+<body>
+    <h1>당신이 입력한 텍스트는 {{ total_count }} 단어로 구성되어 있습니다.</h1>
+    <h1>입력한 텍스트: </h1>
+    {{ alltext }}
+
+    <h1>단어 카운트: </h1>
+    {% for word, frequency in dictionary %}
+        {{ word }} : {{ frequency }} <br>
+    {% endfor %}
+
+    <h2>가장 많이 입력한 단어</h2>
+    {% for word in common_word %}
+        [{{ word }}]
+    {% endfor %}
+    ({{ max_count }}회)
+
+    <h2>글자 수 세기</h2>
+    {{ all_word }}자
+
+    <h2>띄어쓰기 제외 글자 수 세기</h2>
+    {{ all_word_nspace }}자 <br><br>
+
+    <a href="../word-count">다시 하기</a>
+</body>
+</html>
