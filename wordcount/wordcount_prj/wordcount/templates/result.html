@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <a href="http://127.0.0.1:8000/">index 페이지로 돌아가기</a>
+
+    <h1>당신이 입력한 텍스트는 {{ total }}단어로 구성되어 있습니다.</h1>
+
+    <h1>입력한 텍스트:</h1>
+    {{ alltext }}
+
+    <h1>단어 카운트:</h1>
+    {% for word, frequency in dictionary %} {{ word }} : {{ frequency }}
+    <br />
+    {% endfor %}
+
+    <h1>가장 많이 입력된 단어</h1>
+    {% for word in most_words %} {{ word }} ({{ max_freq }}번)<br />
+    {% endfor %}
+
+    <h1>글자 수 세기</h1>
+    <p>{{ total_chars }}자</p>
+    <h1>띄어쓰기 제외 글자 수</h1>
+    <p>{{ no_space }}자</p>
+
+    <a href="http://127.0.0.1:8000/word-count/">다시하기</a>
+  </body>
+</html>
