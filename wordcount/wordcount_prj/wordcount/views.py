@@ -8,8 +8,6 @@ def index(request):
 def word_count(request):
     return render(request, 'word_count.html')
 
-def result(request):
-    return render(request, 'result.html')
 
 def hello(request):
     entered_text = request.GET['fulltext']
