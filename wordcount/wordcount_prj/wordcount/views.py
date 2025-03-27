@@ -25,10 +25,19 @@ def result(request):
         else:
             word_dictionary[word]=1
 
-    most_frequent_word = max(word_dictionary, key=word_dictionary.get)
-    most_frequent_word_count = word_dictionary[most_frequent_word]
+    max_frequency = max(word_dictionary.values())
+    most_frequent_words = [word for word, count in word_dictionary.items() if count == max_frequency]
 
-    return render(request, 'result.html', {'most_frequent_word_count': most_frequent_word_count,'most_frequent_word': most_frequent_word,'char_count_without_spaces': char_count_without_spaces,'word_count':word_count,'char_count': char_count,'alltext':entered_text,'dictionary':word_dictionary.items()})
+
+    return render(request, 'result.html', {
+        'most_frequent_word_count': max_frequency,
+        'most_frequent_words': most_frequent_words,  # 리스트 형태로 전달
+        'char_count_without_spaces': char_count_without_spaces,
+        'word_count': word_count,
+        'char_count': char_count,
+        'alltext': entered_text,
+        'dictionary': word_dictionary.items()
+    })
 
 def hello(request):
     name = request.GET.get('user_name')
