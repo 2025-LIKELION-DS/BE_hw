@@ -3,15 +3,15 @@ from django.shortcuts import render
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+
+    return render(request, 'wordcount/index.html')
 
 def word_count(request):
-    return render(request, 'word_count.html')
+    return render(request, 'wordcount/word_count.html')
 
 def hello(request):
-    entered_name = request.GET['fulltext']
-    return render(request, 'hello.html', {'entered_name': entered_name})
-
+    entered_name = request.GET['name'] # 운영진님 피드백 : 변수명 name 수정
+    return render(request, 'wordcount/hello.html', {'entered_name': entered_name})
 
 def result(request):
     entered_text = request.GET['fulltext']
@@ -37,5 +37,6 @@ def result(request):
     space_count = entered_text.count(' ')
     nospace_word_count = all_word_count - space_count
 
-    return render(request, 'result.html', {'alltext' : entered_text, 'word_list_count' : word_list_count, 'word_max_key': word_max_key, 'word_max_value': word_max_value, 'all_word_count': all_word_count, 'nospace_word_count': nospace_word_count, 'dictionary' : word_dictionary.items()})
+    return render(request, 'wordcount/result.html', {'alltext' : entered_text, 'word_list_count' : word_list_count, 'word_max_key': word_max_key, 'word_max_value': word_max_value, 'all_word_count': all_word_count, 'nospace_word_count': nospace_word_count, 'dictionary' : word_dictionary.items()})
+
 
