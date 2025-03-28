@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{% url 'index' %}">index 페이지로 가기</a>
+    <a href="{% url 'wordcount:index' %}">index 페이지로 가기</a>
     <br>
 
     <h1>당신이 입력한 텍스트는 {{ word_count }} 단어로 구성되어 있습니다.</h1>
@@ -38,7 +38,7 @@
         {% endif %}
     <br>
 
-    <a href="{% url 'word_count' %}">다시하기</a>
+    <a href="{% url 'wordcount:word_count' %}">다시하기</a>
 
 </body>
 </html>

@@ -6,11 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{% url 'index' %}">index 페이지로 가기</a>
+    <a href="{% url 'wordcount:index' %}">index 페이지로 가기</a>
     <br>
     <H1>Word Count</H1>
 
-    <form action="{% url 'result' %}">
+    <form action="{% url 'wordcount:result' %}">
         <textarea name="fulltext" cols="40" rowd="20"></textarea>
         <br />
         <input type="submit" value="count!"/>
