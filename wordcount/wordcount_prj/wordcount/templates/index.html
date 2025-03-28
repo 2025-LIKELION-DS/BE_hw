@@ -10,11 +10,12 @@
 
     <h1>스터디 과제</h1>
     <h2>이름을 적어보세요!</h2>
-    <form action="{% url 'hello' %}">
-      <textarea name="name" rows="1"></textarea>
-      <input type="Submit" value="확인" />
+    <form action="{% url 'wordcount:hello' %}">
+      <input type="text" name="name">
+      <input type="submit" value="확인"></input>
+      <!-- 제출 버튼은 input 대신 button 태그 사용이 더 좋음 -->
     </form>
 
-    <a href="{% url 'word_count' %}">wordcount 하러 가기</a>
+    <a href="{% url 'wordcount:word_count' %}">wordcount 하러 가기</a>
   </body>
 </html>

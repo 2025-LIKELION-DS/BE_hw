@@ -6,7 +6,7 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>당신이 입력한 텍스트는 {{allword}} 단어로 구성되어 있습니다.</h1>
+    <h1>당신이 입력한 텍스트는 {{all_word}} 단어로 구성되어 있습니다.</h1>
 
     <h1>입력한 텍스트:</h1>
     {{alltext}}
@@ -20,12 +20,12 @@
     {% for word in most %} [{{ word }}] {% endfor %} ({{ most_count }}회)
 
     <h1>글자 수 세기:</h1>
-    {{textcnt}} 글자
+    {{text_cnt}} 글자
 
     <h1>띄어쓰기 제외 글자 수 세기:</h1>
-    {{onlytextcnt}} 글자
+    {{only_text_cnt}} 글자
     <br />
     <br />
-    <a href="{% url 'word_count' %}">다시 하기</a>
+    <a href="{% url 'wordcount:word_count' %}">다시 하기</a>
   </body>
 </html>
