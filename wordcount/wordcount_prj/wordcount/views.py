@@ -29,13 +29,10 @@ def result(request):
         if count == most_freq_cnt: 
             most_freq.append(word)  
 
-    for space in entered_text:
-        if space==" ":
-            only_text-=1
+    only_text = len(entered_text.replace(" ",""))
     
-   
-    return render(request, 'result.html', {'onlytextcnt':only_text, 'allword': allword, 'alltext': entered_text, 
-                                           'dictionary':word_dictionary.items(), 'textcnt':text_count,
+    return render(request, 'result.html', {'only_text_cnt':only_text, 'all_word': allword, 'alltext': entered_text, 
+                                           'dictionary':word_dictionary.items(), 'text_cnt':text_count,
                                            'most_count':most_freq_cnt, 'most':most_freq})
 
 def hello(request):
