@@ -6,8 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    <a href = "{% url 'wordcount:index' %}" >Index 페이지로 가기</a>
-    <h1>안녕하세요, {{alltext}} 님!</h1>
-    <h2>만나서 반갑습니다~</h2>
+    <h2>생성된 비밀번호</h2>
+    <br>
+    <p>{{password}}</p>
+    <br>
+    <a href ="{% url 'index' %}" >돌아가기</a>
 </body>
 </html>
