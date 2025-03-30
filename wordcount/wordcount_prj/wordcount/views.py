@@ -29,5 +29,5 @@ def result(request):
     return render(request, 'result.html', {'alltext': entered_text, 'dictionary': word_dictionary.items(), 'word_sum': result, 'except_word': except_text, 'max_value': max_value})
 
 def hello(request):
-    user_name = request.GET['fulltext']
+    user_name = request.GET['name']
     return render(request, 'hello.html', {'name': user_name})
