@@ -1,5 +1,5 @@
 """
-URL configuration for wordcount_prj project.
+URL configuration for password_prj project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -16,9 +16,14 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from password import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('wordcount.urls')),
+    path('',views.index,name='index'),
+    path('error1/',views.error1,name='error1'),
+    path('error2/',views.error1,name='error2'),
+    path('error3/',views.error1,name='error3'),
+    path('result/',views.password_generator,name='result'),
 ]
