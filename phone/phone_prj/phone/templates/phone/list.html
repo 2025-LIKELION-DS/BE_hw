@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'result' %}" method="GET">
+        <input type="text" name="keyword">
+        <input type="submit" value="검색"><hr>
+    </form>
+    {% for contact in contacts %}
+        <h2>이름: {{ contact.name }}</h2>
+        <a>전화번호: {{ contact.phone_num }}</a>
+        <hr>
+    {% empty %}
+        저장된 전화번호가 없습니다
+    {% endfor %}
+</body>
+</html>
