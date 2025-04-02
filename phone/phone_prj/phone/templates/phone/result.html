@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>"{{ hint }}"검색 결과 페이지입니다. </h2>
+    {% for post in posts %}
+    <h2>이름 : {{ post.name }}</h2>
+    <p> 전화번호 : {{ post.phone_num }} </p>
+    <hr>
+    {% empty %}
+    해당 검색어와 관련된 전화번호가 없습니다. 
+    {% endfor %}
+</body>
+</html>

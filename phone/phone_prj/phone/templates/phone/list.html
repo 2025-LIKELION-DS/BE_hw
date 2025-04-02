@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form  action="{% url 'phone:result' %}" method = "get">
+        <input type="text" name="search">
+        <input type = "submit" value="검색">
+    </form>
+    <hr/>
+
+    {% for post in posts %}
+    <h2>이름 : {{ post.name }}</h2>
+    <p> 전화번호 : {{ post.phone_num }} </p>
+    <hr>
+    {% empty %}
+    작성된 글이 없습니다. 
+    {% endfor %}
+</body>
+</html>
