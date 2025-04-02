@@ -1,5 +1,5 @@
 """
-URL configuration for password_prj project.
+URL configuration for phone_prj project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -16,14 +16,9 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
-from password import views
+from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('',views.index,name='index'),
-    path('error1/',views.password_generator,name='error1'),
-    path('error2/',views.password_generator,name='error2'),
-    path('error3/',views.password_generator,name='error3'),
-    path('result/',views.password_generator,name='result'),
+    path('',include('phone.urls')),
 ]
