@@ -22,8 +22,8 @@ from password import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('',views.index,name='index'),
-    path('error1/',views.error1,name='error1'),
-    path('error2/',views.error1,name='error2'),
-    path('error3/',views.error1,name='error3'),
+    path('error1/',views.password_generator,name='error1'),
+    path('error2/',views.password_generator,name='error2'),
+    path('error3/',views.password_generator,name='error3'),
     path('result/',views.password_generator,name='result'),
 ]
