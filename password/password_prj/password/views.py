@@ -3,16 +3,8 @@ import random
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'password/index.html')
 
-def error1(request):
-    return render(request, 'error1.html')
-
-def error2(request):
-    return render(request, 'error2.html')
-
-def error3(request):
-    return render(request, 'error3.html')
 
 def password_generator(request):
     length=request.GET['length']
@@ -22,14 +14,15 @@ def password_generator(request):
     special="special" in request.GET
 
     if length=='':
-        return render(request, 'error2.html')
+        return render(request, 'password/error2.html')
     
     length=int(length)
     
     if length<0:
-        return render(request, 'error1.html')
-    if upper==False and lower==False and digits==False and special==False :
-        return render(request, 'error3.html')
+        return render(request, 'password/error1.html')
+    if not (upper or lower or digits or special):
+        return render(request, "password/error3.html")
+    # 드모르간 법칙으로 수정
     
 
     
@@ -37,13 +30,13 @@ def password_generator(request):
     if upper:
         check_chars+="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     if lower:
-        check_chars+="abcdefghijklmnop"
+        check_chars+="abcdefghijklmnopqrstuvwxyz"
     if digits:
         check_chars+="0123456789"
     if special:
         check_chars+="!@#$%^&*"
 
-    result = ''.join(random.sample(check_chars, length))
+    result = ''.join(random.choices(check_chars, length))
+    #sample -> choices로 수정
 
-    return render(request, 'result.html', {'upper':upper, 'lower':lower, 'digits':digits, 'special':special,
-                                           'result':result})
+    return render(request, 'password/result.html', {'result':result})
