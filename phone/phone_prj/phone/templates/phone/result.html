@@ -9,13 +9,15 @@
     <h1>" {{ keyword }} " 검색 결과 페이지 입니다.</h1>
 
     {% for phone in phones %}
-        <h1>이름: {{ phone.name }} </h1>
+        <a href="{% url 'phone:detail' phone.id %}"> {{ phone.name }} </a>
         <p>전화번호: {{ phone.number }}</p>
         <hr>
 
     {% empty %}
         해당 검색어와 관련된 전화번호가 없습니다.    
     {% endfor %}
+
+    <a href="{% url 'phone:list' %}">연락처 목록으로 돌아가기</a>
     
 </body>
 </html>
