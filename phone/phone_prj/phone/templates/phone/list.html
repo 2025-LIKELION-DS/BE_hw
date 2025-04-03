@@ -6,15 +6,20 @@
     <title>Document</title>
   </head>
   <body>
+    <h2>연락처</h2>
     <form method="GET" action="{% url 'phone:result' %}">
-      <input type="text" name="keyword"/>
+      <input type="text" name="keyword" />
       <input type="submit" value="검색" />
       <hr />
     </form>
     {% for phone in phones %}
-    <h1>이름: {{ phone.name }}</h1>
-    <p>전화번호: {{ phone.phone_num }}</p>
+    <p>
+      <a href="{% url 'phone:detail' phone.id %}">{{ phone.name }}</a>
+      {{ phone.phone_num }}
+      <a href="{% url 'phone:update' phone.id %}">수정</a>
+    </p>
     <hr />
-    {% empty %} 작성된 번호가 없습니다 {% endfor %}
+    {% empty %} 등록된 연락처가 없습니다. {% endfor %}
+    <a href="{% url 'phone:create' %}">새 번호 등록</a>
   </body>
 </html>
