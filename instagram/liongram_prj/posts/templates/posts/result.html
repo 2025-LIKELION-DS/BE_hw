@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>"{{search_text}}" 검색 결과 페이지 입니다.</h1>
+
+    {% if post %} 
+        {% for p in post %}
+        <h2><a href="{% url 'posts:detail' p.id %}">{{ p.title }}</a></h2>
+        <p>{{ p.content }}</p>
+        <hr />
+        {% endfor %}
+    {% else %}  
+        <p>해당 검색어와 관련된 게시물이 없습니다.</p>
+    {% endif %}
+
+</body>
+</html>
+
