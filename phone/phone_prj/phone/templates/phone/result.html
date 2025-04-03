@@ -6,16 +6,13 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>"{{ keyword }}" 검색 결과 페이지 입니다.</h1>
-    {% if result %}
+    <h1>"{{ keyword}}" 검색 결과 페이지 입니다.</h1>
     <!--전화번호 있는 경우-->
     {% for phone in result %}
     <h3>이름: {{ phone.name }}</h3>
     전화번호: {{ phone.phone_num }}
     <hr />
-    {% endfor %} {% else %}
-    <!--전화 번호 없는 경우-->
-    <p>해당 검색어와 관련된 전화번호가 없습니다.</p>
-    {% endif %}
+    <!-- 전화번호 없는 경우-->
+    {% empty %} 해당 검색어와 관련된 전화번호가 없습니다. {% endfor %}
   </body>
 </html>
