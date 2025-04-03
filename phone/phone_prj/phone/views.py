@@ -25,7 +25,7 @@ def create(request):
             phone_num=phone_num,
             email=email
         )
-        redirect('phone:list')
+        return redirect('phone:list')
     return render(request,'phone/create.html')
 
 def detail(request,id):
@@ -40,9 +40,13 @@ def update(request,id):
         phone.email=request.POST.get('email')
         phone.save()
         redirect('phone:detail',id)
-    return render(request,'phone/update.html')
+    return render(request,'phone/update.html', {'phone': phone})
 
 def delete(request,id):
     phone=get_object_or_404(Phone,id=id)
-    phone.delete()
-    return (request,'delete.html')
+
+    if request.method == "POST":  
+        phone.delete()
+        return redirect('phone:list')
+
+    return render(request, 'phone/delete.html', {'phone': phone})
