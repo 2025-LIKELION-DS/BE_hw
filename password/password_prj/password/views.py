@@ -4,16 +4,6 @@ import random
 def index(request):
     return render(request, 'password/index.html')
 
-def error1(request):
-    return render(request, 'password/error1.html')
-
-def error2(request):
-    return render(request, 'password/error2.html')
-
-def error3(request):
-    return render(request, 'password/error3.html')
-
-
 def password_generator(request):
     if not request.GET.get('lenpwd'):
         return render (request,'password/error2.html')

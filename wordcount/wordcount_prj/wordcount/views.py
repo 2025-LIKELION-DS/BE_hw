@@ -1,14 +1,14 @@
 from django.shortcuts import render
 
 def index(request):
-    return render(request,'index.html')
+    return render(request,'wordcount/index.html')
 
 def word_count(request):
-    return render(request,'word_count.html')
+    return render(request,'wordcount/word_count.html')
 
 def hello(request):
     name=request.GET['name']
-    return render(request,'hello.html',{'name':name})
+    return render(request,'wordcount/hello.html',{'name':name})
 
 def result(request):
     entered_text=request.GET['fulltext']
@@ -33,6 +33,14 @@ def result(request):
         elif count==max_count:
             common_word.append(word)
 
-    return render(request,'result.html',{'alltext': entered_text,'dictionary':word_dictionary.items(),
-    'total_count':total_count, 'all_word_nspace':all_word_nspace, 'all_word':all_word,
-    'max_count':max_count,'common_word':common_word,})
+    context={
+        'alltext': entered_text,
+        'dictionary':word_dictionary.items(),
+        'total_count':total_count, 
+        'all_word_nspace':all_word_nspace, 
+        'all_word':all_word,
+        'max_count':max_count,
+        'common_word':common_word,
+    }
+
+    return render(request,'wordcount/result.html',context)

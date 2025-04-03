@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{% url 'index' %}">index 페이지로 가기</a>
+    <a href="{% url 'wordcount:index' %}">index 페이지로 가기</a>
     <h1>당신이 입력한 텍스트는 {{ total_count }} 단어로 구성되어 있습니다.</h1>
     <h1>입력한 텍스트: </h1>
     {{ alltext }}
@@ -28,6 +28,6 @@
     <h2>띄어쓰기 제외 글자 수 세기</h2>
     {{ all_word_nspace }}자 <br><br>
 
-    <a href="{% url 'word_count' %}">다시 하기</a>
+    <a href="{% url 'wordcount:word_count' %}">다시 하기</a>
 </body>
 </html>
