@@ -8,13 +8,12 @@
 <body>
     <h2>"{{ keyword }}" 검색 결과 페이지 입니다.</h2>
 
-{% if contacts %}
-  {% for contact in contacts %}
-    <h2>이름: {{ contact.name }}</h2>
-    <p>전화번호: {{ contact.phone_num }}</p><hr>
-  {% endfor %}
-{% else %}
-  <p>해당 검색어와 관련된 전화번호가 없습니다.</p>
-{% endif %}
+    {% for contact in contacts %}
+    <div> {{ contact.name }}
+        {{ contact.phone_num }}
+    </div><hr>
+    {% empty %}
+      <p>해당 검색어와 관련된 전화번호가 없습니다.</p>
+    {% endfor %}
 </body>
 </html>
