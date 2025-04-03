@@ -10,9 +10,14 @@
       <input type="text" name="searchWord" />
       <button type="submit">검색</button>
     </form>
+
+    <a href="{% url 'phone:create' %}">새 번호 등록</a>
+
     {% for phone in phones%}
-    <h3>이름: {{phone.name}}</h3>
+    <a href="{% url 'phone:detail' phone.id %}"><h3>{{phone.name}}</h3></a>
     <p>전화번호: {{phone.phone_num}}</p>
+    <a href="{% url 'phone:update' phone.id %}">수정</a>
+    <a href="{% url 'phone:delete' phone.id %}">삭제</a>
     <hr />
     <br />
     {% empty %}
