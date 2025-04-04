@@ -8,4 +8,7 @@ urlpatterns = [
     path('', list, name='list'),
     path('create/', create, name='create'),
     path('result/', result, name='result'),
+    path('delete/<str:name>/', delete, name='delete'),
+    path('update/<str:name>/', update, name='update'),
+    path('detail/<str:name>/', detail, name='detail'),
 ]
