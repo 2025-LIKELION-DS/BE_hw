@@ -8,7 +8,9 @@
   <body>
     <h3>"{{searchWord}}" 검색 결과 페이지입니다.</h3>
     {% for phone in phones%}
-    <h3>이름: {{phone.name}}</h3>
+    <h3>
+      이름: <a href="{% url 'phone:detail' phone.id %}">{{phone.name}}</a>
+    </h3>
     <p>전화번호: {{phone.phone_num}}</p>
     <hr />
     <br />
