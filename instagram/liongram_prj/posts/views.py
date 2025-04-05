@@ -10,7 +10,6 @@ def create(request):
     if request.method=="POST":
         title=request.POST.get('title')
         content=request.POST.get('content')
-
         posts=Post.objects.create(
             title=title,
             content=content
@@ -40,5 +39,4 @@ def delete(request, id):
 def result(request):
     keyword=request.GET.get('keyword')
     result=Post.objects.filter(Q(title__contains=keyword)|Q(content__contains=keyword)).order_by('created_at')
-    context={'keyword':keyword,'result':result}
-    return render(request,'posts/result.html',context)
+    return render(request,'posts/result.html',{'keyword':keyword,'result':result})
