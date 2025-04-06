@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>글 수정</h2>
+    <form action="{% url 'posts:update' posts.id %}" method="POST">
+        {% csrf_token %}
+        제목-<input type="text" name="title" value="{{posts.title}}"><br><br>
+        내용-<textarea name="content" placeholder="내용 작성" rows="2">{{posts.content}}</textarea><br><br>
+        <input type="submit" value="제출">
+    </form>
+</body>
+</html>
