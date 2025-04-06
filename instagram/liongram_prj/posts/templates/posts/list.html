@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>덕멋 인스타그램</h2>
+    <a href="{% url 'posts:create' %}">글 작성하기</a>
+    <hr />
+    <form action="{% url 'posts:result' %}">
+      <input type="text" name="searchWord" />
+      <button type="submit">검색</button>
+    </form>
+    {% for post in posts %}
+    <a href="{% url 'posts:detail' post.id %}"><h3>{{post.title}}</h3></a>
+    <p>{{post.content}}</p>
+    <p>조회수: {{post.views}}</p>
+    <p>{{post.created_at}}</p>
+    {% empty %}
+    <br />
+    글이 없습니다. {% endfor %}
+  </body>
+</html>

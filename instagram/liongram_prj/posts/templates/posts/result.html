@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>"{{searchWord}}" - 검색 결과</h2>
+    {% for post in posts %}
+    <a href="{% url 'posts:detail' post.id %}"><h3>{{post.title}}</h3></a>
+    <p>{{post.content}}</p>
+    <p>{{post.view}}</p>
+    {% empty %}
+    <br />
+    검색된 글이 없습니다. {% endfor %}
+  </body>
+</html>
