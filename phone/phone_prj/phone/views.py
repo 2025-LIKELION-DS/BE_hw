@@ -1,12 +1,21 @@
 from django.shortcuts import render, redirect
 from .models import Phone
 from django.shortcuts import get_object_or_404
+from django.views.generic import ListView
 
-# Create your views here.
+# CBV
+class IndexView(ListView): 
+    queryset=Phone.objects.all().order_by('name')
+    template_name='phone/list.html'
+    context_object_name='phones'
+
+# FBV
+''' 
 def list(request):
     phones=Phone.objects.all().order_by('name') # 이름순으로
     return render(request,'phone/list.html',{'phones':phones}) 
     # 'list.html' x -> templates>phone>list.html이므로 phone/list.html
+'''
 
 def result(request):
     keyword=request.GET.get('keyword') # 검색어 부분 받기
