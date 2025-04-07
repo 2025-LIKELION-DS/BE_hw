@@ -22,8 +22,7 @@ def create(request):
 
 def detail(request,id):
     posts=get_object_or_404(Post,id=id)
-    posts.views+=1 # 조회수 +1
-    posts.save() 
+    posts.view_up()  # 조회수 메서드 
     return render(request,'posts/detail.html',{'posts':posts})
 
 def update(request,id):
