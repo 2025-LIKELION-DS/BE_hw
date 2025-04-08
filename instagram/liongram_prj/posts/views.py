@@ -30,8 +30,7 @@ def create(request):
 # 글 상세 페이지
 def detail(request, id):
     post = get_object_or_404(Post, id=id)
-    post.views += 1               # detail 페이지에 들어갈 때마다 해당 데이터의 조회수가 +1 되도록
-    post.save()
+    post.view_up()
     return render(request, 'posts/detail.html', {'post':post})
 
 #글 수정하기

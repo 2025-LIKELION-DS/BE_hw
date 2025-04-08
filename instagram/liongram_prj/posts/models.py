@@ -8,3 +8,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+        
+    def view_up(self):
+        self.views += 1
+        self.save()
