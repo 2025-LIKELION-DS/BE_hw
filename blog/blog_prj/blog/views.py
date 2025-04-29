@@ -2,13 +2,17 @@ from django.shortcuts import render
 from .models import Post
 from django.shortcuts import render,redirect
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def list(request):
     posts=Post.objects.all().order_by('-id') #Post model의 모든 객체 가져와 id역순으로 정렬-최신글
     return render(request,'blog/list.html',{'posts':posts})
 
+@login_required
+
 def create(request):
+
     if request.method=="POST":
         title=request.POST.get('title')
         content=request.POST.get('content')
