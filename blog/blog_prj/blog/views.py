@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from .models import Post
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def list(request):
     posts = Post.objects.all().order_by('-id')
     return render(request, 'blog/list.html', {'posts': posts})
 
+@login_required
 def create(request):
     if request.method == "POST":
         title = request.POST.get('title')

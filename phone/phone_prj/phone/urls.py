@@ -5,10 +5,10 @@ from .views import *
 app_name = 'phone'
 
 urlpatterns = [
-    path('', list, name='list'),
+    path('',IndexView.as_view(), name='list'),
     path('create/', create, name='create'),
     path('result/', result, name='result'),
-    path('delete/<str:name>/', delete, name='delete'),
-    path('update/<str:name>/', update, name='update'),
-    path('detail/<str:name>/', detail, name='detail'),
+    path('delete/<int:id>/', delete, name='delete'),
+    path('update/<int:id>/', update, name='update'),
+    path('detail/<int:id>/', detail, name='detail'),
 ]
