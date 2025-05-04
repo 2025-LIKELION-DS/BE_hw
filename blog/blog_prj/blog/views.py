@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Post
+from django.contrib.auth.decorators import login_required
 
 def list(request):
     posts=Post.objects.all().order_by('-id')
     return render(request,'blog/list.html',{'posts':posts})
 
+@login_required
 def create(request):
     if request.method=="POST":
         title=request.POST.get('title')
