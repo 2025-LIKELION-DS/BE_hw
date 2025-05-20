@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from blog.models import Post
 
 # Create your views here.
 def signup(request):
@@ -13,7 +14,7 @@ def signup(request):
     form=SignUpForm(request.POST)
     if form.is_valid():
         form.save()
-        return redirect('blog:list')
+        return redirect('accounts:login')
     else:
         return render(request,'accounts/signup.html',{'form':form})
     
@@ -37,3 +38,8 @@ def mypage(request):
 
 def user_info(request):
     return render(request,'accounts/user_info.html')
+
+def myblog(request):
+    # posts=request.user.posts.all().order_by('-id') => 정참조 방식
+    posts = Post.objects.filter(author=request.user).order_by('-id') # filter 메소드 사용
+    return render(request,'accounts/myblog.html',{'posts':posts})
