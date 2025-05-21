@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.forms",
     "blog",
     "users",
     "accounts",
@@ -126,3 +127,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'users.User' #사용자 모델 변경
+
+FORM_RENDERER = 'django.forms.renderers.DjangoTemplates'
+

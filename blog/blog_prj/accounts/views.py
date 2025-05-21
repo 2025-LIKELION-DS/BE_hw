@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from blog.models import Post
 # Create your views here.
 
 def signup(request):
@@ -37,3 +38,7 @@ def mypage(request):
 
 def user_info(request):
     return render(request, 'accounts/user_info.html')
+
+def myblog(request):
+    posts = Post.objects.filter(author=request.user).order_by('-id')
+    return render(request, 'accounts/myblog.html', {'posts': posts})
