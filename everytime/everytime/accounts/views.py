@@ -3,6 +3,8 @@ from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from posts.models import Post
+
 def signup(request):
     if request.method=="GET":
         form=SignUpForm()
@@ -34,3 +36,7 @@ def mypage(request):
 
 def user_info(request):
     return render(request, 'accounts/user_info.html')
+
+def mypost(request):
+    posts=Post.objects.all().order_by('-id')
+    return render(request, 'accounts/mypost.html', {'posts':posts})

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <p>
+    <a href="{% url 'posts:main' %}">매인 페이지로 돌아가기</a>
+    <br />
+    <br />
+    닉네임: {{post.author.nickname}} <br />
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr />
+    <h2>{{post.title}}</h2>
+    <h3>{{post.content}}</h3>
+    <h3>{{post.created_at}}</h3>
+    {% if post.is_anonymous %}
+    <strong>익명</strong> <br />
+    {% else %}
+    <strong>{{post.author}}</strong> <br />
+    {% endif %} {% if request.user == post.author %}
+    <a href="{% url 'posts:update' post.id %}">수정하기</a>
+    <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
+    {% endif %}
+    <hr />
+    <strong>댓글</strong> <br/><br/>
+   {% for comment in comments %}
+  {% if comment.is_anonymous %}
+    익명: {{ comment.content }} {{comment.created_at}}
+  {% else %}
+    {{comment.author.nickname}}: {{comment.content}} {{comment.created_at}}
+  {% endif %}
+  
+  {% if request.user == comment.author %}
+    <a href="{% url 'posts:delete-comment' comment.id %}">삭제하기</a>
+  {% endif %}
+  <br/><br/>
+{% empty %}
+  댓글이 없습니다.<br/><br/>
+{% endfor %}
+    <form method="POST" action="{% url 'posts:create-comment' post.id %}">
+      {% csrf_token %} 댓글 <input type="text" name="content" />
+      <button type="submit">작성</button>
+      <input type="checkbox" name="is_anonymous" />익명
+    </form>
+  </body>
+</html>
