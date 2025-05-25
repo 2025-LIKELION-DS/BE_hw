@@ -38,5 +38,6 @@ def user_info(request):
     return render(request, 'accounts/user_info.html')
 
 def myblog(request):
-    posts = request.user.posts.all().order_by('-id')
+    # posts = request.user.posts.all().order_by('-id')
+    posts = Post.objects.filter(author=request.user).order_by('-id')
     return render(request, 'accounts/myblog.html', {'posts' : posts})

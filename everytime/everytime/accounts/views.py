@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import *
+from posts.models import Post
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -36,3 +37,9 @@ def mypage(request):
 
 def user_info(request):
     return render(request, 'accounts/user_info.html')
+
+
+def mypost(request):
+    nickname = request.user.nickname
+    my_posts = Post.objects.filter(author=nickname).order_by('-created_at')
+    return render(request, 'accounts/mypost.html', {'my_posts': my_posts})

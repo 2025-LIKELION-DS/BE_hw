@@ -14,7 +14,7 @@ def create(request):
         title = request.POST.get('title')
         content = request.POST.get('content')
 
-        post = Post.objects.create(
+        Post.objects.create(
             title = title, 
             content = content,
             author = request.user

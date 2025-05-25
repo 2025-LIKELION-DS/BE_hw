@@ -9,7 +9,7 @@ class Post(models.Model):
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="posts")
 
     def __str__(self):
-        return f'[{self.id}] {self.title}'
+        return f'[{self.id}] self.title'
     
 class Comment(models.Model):
     post = models.ForeignKey(to=Post, on_delete=models.CASCADE, related_name="comments")
