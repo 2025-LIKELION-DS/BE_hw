@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'posts:main' %}">홈으로</a><br>
+    <p>nickname: {{request.user.nickname}}</p>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a><hr>
+
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content }}</p><br>
+    <p>{{ post.created_at }}</p>
+    <p>{% if post.is_anonymous %}익명{% else %}{{ post.author }}{% endif %}</p>
+
+    <p>댓글 수: {{ post.comments.count }}</p><br>
+    {% if request.user.nickname == post.author %}
+    <a href="{% url 'posts:update' post.id %}">수정하기</a>
+    <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
+    {% endif %}<br><hr>
+
+    <h2>댓글</h2>
+    {% for comment in post.comments.all %}
+    <p>
+        {% if comment.is_anonymous %}
+            익명
+        {% else %}
+            {{ comment.author }}
+        {% endif %}
+        : {{ comment.content }} {{ comment.created_at }}
+    </p>
+{% empty %}
+    댓글이 없습니다.
+{% endfor %}
+
+    <form method="post" action="{% url 'posts:create-comment' post.id %}">
+        {% csrf_token %}
+    <textarea name="content"></textarea>
+    <input type="checkbox" name="is_anonymous">익명
+    <button type="submit">댓글 작성</button> <br>
+
+
+</body>
+</html>

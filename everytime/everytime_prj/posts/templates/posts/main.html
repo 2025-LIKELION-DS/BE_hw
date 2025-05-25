@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {%if request.user.is_authenticated%}
+        Nickname: {{request.user.nickname}}<br/><br>
+        <a href="{% url 'accounts:logout' %}">로그아웃</a>
+        <a href="{% url 'accounts:mypage' %}">마이페이지</a>
+        <hr>
+        <h2>글 작성</h2>
+        <form method='POST'>
+            {% csrf_token %}
+            제목-<input type='text' name='title' placeholder="제목 입력"><br><br>
+            내용-<textarea name="content" placeholder="내용 입력"></textarea><br><br>
+            <input type="checkbox" name="is_anonymous">익명
+            <input type="submit" value="작성하기">
+        </form>
+    {%else%}
+        <a href="{% url 'accounts:login' %}">로그인</a>
+        <a href="{% url 'accounts:signup' %}">회원가입</a>
+        <br>
+    {%endif%}
+    <br/>
+    <br/>
+    <hr>
+    {% for post in posts %}
+    <h2><a href="{% url 'posts:detail' post.id %}">{{post.title}}</a></h2>
+    
+    <p>{{post.content}}</p>
+    <p>{{post.created_at}}</p>
+    {% empty %}
+        작성된 글이 없습니다.
+    {% endfor %}
