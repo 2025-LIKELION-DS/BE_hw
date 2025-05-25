@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout as auth_logout
+from posts.models import Post
 
 # 회원가입
 def signup(request):
@@ -41,3 +42,7 @@ def mypage(request):
 # 유저 정보
 def user_info(request):
     return render(request,'accounts/user_info.html')
+
+def mypost(request):
+    myposts=request.user.posts.all().order_by('-created_at')
+    return render(request,'accounts/mypost.html',{'myposts':myposts})

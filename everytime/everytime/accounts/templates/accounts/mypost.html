@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    {% for mypost in myposts %}
+    <h2><a href="{% url 'posts:detail' mypost.id %}">{{ mypost.title }}</a></h2>
+    <p>{{ mypost.content }}</p>
+    <p>{{ mypost.created_at }}</p>
+    <p>{{ mypost.author.nickname }}</p>
+    {% empty %} 글이 없습니다. {% endfor %}
+  </body>
+</html>
