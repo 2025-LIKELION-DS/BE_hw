@@ -36,3 +36,8 @@ def mypage(request):
 
 def user_info(request):
     return render(request, 'accounts/user-info.html')    
+
+
+def mypost(request):
+    posts = request.user.posts.all().order_by('-id')
+    return render(request, 'accounts/mypost.html', {'posts':posts})
