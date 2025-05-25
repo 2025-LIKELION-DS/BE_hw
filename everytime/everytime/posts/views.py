@@ -1,5 +1,60 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Post, Comment
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def main(request):
-    return render(request, 'posts/main.html')
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        is_anonymous = 'is_anonymous' in request.POST
+
+        Post.objects.create(
+            title = title,
+            content = content,
+            is_anonymous = is_anonymous,
+            author = request.user,
+        )
+        return redirect('posts:main')
+
+    posts = Post.objects.all().order_by('-id')
+    return render(request, 'posts/main.html', {'posts':posts})
+
+def detail(request, id):
+    post = get_object_or_404(Post, id=id)
+    return render(request, 'posts/detail.html', {'post':post})
+
+def create_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        is_anonymous = 'is_anonymous' in request.POST
+
+        Comment.objects.create(
+            post=post,
+            content = content,
+            author = request.user,
+            is_anonymous = is_anonymous,
+        )
+        return redirect('posts:detail', post_id)
+    
+def delete(request, id):
+    post = get_object_or_404(Post, id=id)
+    post.delete()
+    return redirect('posts:main')
+
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    post_id = comment.post.id
+    comment.delete()
+    return redirect('posts:detail', post_id)
+
+def update(request, id):
+    post = get_object_or_404(Post, id=id)
+    if request.method == 'POST':
+        post.title = request.POST.get('title')
+        post.content = request.POST.get('content')
+        post.is_anonymous = 'is_anonymous' in request.POST
+        post.save()
+        return redirect('posts:detail', id)
+    return render(request, 'posts/update.html', {'post':post})
