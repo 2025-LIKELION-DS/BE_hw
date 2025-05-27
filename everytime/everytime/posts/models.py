@@ -8,11 +8,12 @@ class Post(models.Model):
     author=models.ForeignKey(to=User,on_delete=models.CASCADE,related_name="posts")
     is_anonymouse=models.BooleanField(default=False) # 익명 여부
     created_at=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateField(auto_now_add=True)
+    updated_at=models.DateField(auto_now=True)
 
     def __str__(self):
         return f'[{self.id}]{self.title}'
 
+    @property
     def anonymouse(self):
         if self.is_anonymouse: # 익명일 경우
             return "익명"
@@ -27,6 +28,7 @@ class Comment(models.Model):
     is_anonymouse=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
 
+    @property
     def __str__(self):
         return f'[{self.id}]{self.content}'
 
