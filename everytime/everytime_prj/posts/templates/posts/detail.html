@@ -13,13 +13,37 @@
     <h2>{{ post.title }}</h2>
     <p>{{ post.content }}</p><br>
     <p>{{ post.created_at }}</p>
-    <p>{% if post.is_anonymous %}익명{% else %}{{ post.author }}{% endif %}</p>
+    <p>{% if post.is_anonymous %}익명{% else %}{{ post.author.nickname }}{% endif %}</p>
 
     <p>댓글 수: {{ post.comments.count }}</p><br>
-    {% if request.user.nickname == post.author %}
+    {% if request.user == post.author %}
     <a href="{% url 'posts:update' post.id %}">수정하기</a>
     <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
-    {% endif %}<br><hr>
+    {% endif %}
+
+    
+    <p>공감 {{ post.like.count }}개 스크랩 {{ post.scrap.count }}개</p>
+
+    {% if request.user in post.like.all %}
+        <a href="{% url 'posts:like' post.id %}">
+            <button type="button">좋아요 취소</button>
+        </a>
+    {% else %}
+        <a href="{% url 'posts:like' post.id %}">
+            <button type="button">좋아요</button>
+        </a>
+    {% endif %}
+    
+    {% if request.user in post.scrap.all %}
+        <a href="{% url 'posts:scrap' post.id %}">
+            <button type="button">스크랩 취소</button>
+        </a>
+    {% else %}
+        <a href="{% url 'posts:scrap' post.id %}">
+            <button type="button">스크랩</button>
+        </a>
+    {% endif %}
+    <hr>
 
     <h2>댓글</h2>
     {% for comment in post.comments.all %}

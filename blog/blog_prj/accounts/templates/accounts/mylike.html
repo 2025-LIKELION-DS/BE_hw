@@ -7,12 +7,13 @@
 </head>
 <body>
     <a href="{% url 'blog:list' %}">홈으로</a>
-    <h2>내가 작성한 블로그</h2><hr>
+    <h2>내가 좋아요 누른 블로그</h2><hr>
 
-    {% for post in posts %}
+    {% for post in liked_posts %}
     <h2>{{ post.title }}</h2>
     <p>{{ post.content }}</p>
     <p>{{ post.author.nickname }}</p>
-    {% empty %} 글이 없습니다. {% endfor %}
+    {% empty %}좋아요 누른 글이 없습니다. {% endfor %}
+    
 </body>
 </html>

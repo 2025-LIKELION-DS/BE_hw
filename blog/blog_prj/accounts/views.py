@@ -42,3 +42,8 @@ def myblog(request):
     #posts=request.user.posts.all().order_by('-id')
     posts = Post.objects.filter(author=request.user).order_by('-id')
     return render(request,"accounts/myblog.html",{"posts":posts})
+
+def mylike(request):
+    user = request.user
+    liked_posts = Post.objects.filter(like=user).order_by('-id')
+    return render(request, "accounts/mylike.html", {'liked_posts': liked_posts})

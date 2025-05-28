@@ -6,19 +6,15 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="{% url 'posts:category' slug='secret' %}">비밀게시판</a>
+    <a href="{% url 'posts:category' slug='freshman' %}">새내기게시판</a>
+    <a href="{% url 'posts:category' slug='free' %}">자유게시판</a><br><br>
+
+
     {%if request.user.is_authenticated%}
         Nickname: {{request.user.nickname}}<br/><br>
         <a href="{% url 'accounts:logout' %}">로그아웃</a>
         <a href="{% url 'accounts:mypage' %}">마이페이지</a>
-        <hr>
-        <h2>글 작성</h2>
-        <form method='POST'>
-            {% csrf_token %}
-            제목-<input type='text' name='title' placeholder="제목 입력"><br><br>
-            내용-<textarea name="content" placeholder="내용 입력"></textarea><br><br>
-            <input type="checkbox" name="is_anonymous">익명
-            <input type="submit" value="작성하기">
-        </form>
     {%else%}
         <a href="{% url 'accounts:login' %}">로그인</a>
         <a href="{% url 'accounts:signup' %}">회원가입</a>
@@ -27,11 +23,40 @@
     <br/>
     <br/>
     <hr>
-    {% for post in posts %}
-    <h2><a href="{% url 'posts:detail' post.id %}">{{post.title}}</a></h2>
-    
-    <p>{{post.content}}</p>
-    <p>{{post.created_at}}</p>
-    {% empty %}
-        작성된 글이 없습니다.
-    {% endfor %}
+        {% load humanize %}
+
+    <h2><a href="{% url 'posts:category' 'secret' %}">비밀게시판</a></h2>
+    <ul>
+        {% for post in secret_posts %}
+            <li>
+                <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
+                <small> - {{ post.created_at|naturaltime }}</small>
+            </li>
+        {% empty %}
+            <li>게시글이 없습니다.</li>
+        {% endfor %}
+    </ul>
+
+    <h2><a href="{% url 'posts:category' 'freshman' %}">새내기게시판</a></h2>
+    <ul>
+        {% for post in freshman_posts %}
+            <li>
+                <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
+                <small> - {{ post.created_at|naturaltime }}</small>
+            </li>
+        {% empty %}
+            <li>게시글이 없습니다.</li>
+        {% endfor %}
+    </ul>
+
+    <h2><a href="{% url 'posts:category' 'free' %}">자유게시판</a></h2>
+    <ul>
+        {% for post in free_posts %}
+            <li>
+                <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
+                <small> - {{ post.created_at|naturaltime }}</small>
+            </li>
+        {% empty %}
+            <li>게시글이 없습니다.</li>
+        {% endfor %}
+    </ul>

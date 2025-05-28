@@ -11,6 +11,29 @@
     <p>내용: {{ post.content }}</p>
     <p>작성일: {{ post.created_at }}</p>
     <p>작성자: {{ post.author.nickname }}</p>
+
+    <p>좋아요: {{ post.like.count }}<br>
+        {% if request.user in post.like.all %}
+            <a href="{% url 'blog:like' post.id %}">좋아요 취소</a>
+        {% else %}
+            <a href="{% url 'blog:like' post.id %}">좋아요</a>
+        {% endif %}
+    </p>
+
+    <p>카테고리 - 
+        {% for category in post.category.all %}
+            [{{ category.name }}]
+        {% empty %}
+            선택된 카테고리가 없습니다.
+        {% endfor %}
+    </p><br>
+
+    {% if request.user == post.author %}
+    <a href="{% url 'blog:update' post.id %}">수정하기</a>
+    <a href="{% url 'blog:delete' post.id %}">삭제하기</a>
+    {% endif %}<hr>
+
+    <h2>댓글</h2> 
     <p>댓글 수: {{ post.comments.count }}</p>
     {% for comment in post.comments.all %}
         <p>{{ comment.author.nickname }} : {{ comment.content }}
@@ -23,9 +46,5 @@
     <textarea name="content" cols="30" row="5"></textarea>
     <button type="submit">댓글 작성</button> <br>
 
-    {% if request.user == post.author %}
-    <a href="{% url 'blog:update' post.id %}">수정하기</a><br>
-    <a href="{% url 'blog:delete' post.id %}">삭제하기</a>
-    {% endif %}
 </body>
 </html>
