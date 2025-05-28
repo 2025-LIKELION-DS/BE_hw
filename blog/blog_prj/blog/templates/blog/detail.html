@@ -12,6 +12,22 @@
     <p>작성일 - {{post.created_at}}</p>
     <p>작성자: {{post.author.nickname}}</p>
 
+    <p>좋아요: {{post.like.count}}
+      {% if request.user in post.like.all %} <!--좋아요 눌렀는지 확인-->
+      <a href="{% url 'blog:like' post.id %}">좋아요 취소</a>
+      {% else %}
+      <a href="{% url 'blog:like' post.id %}">좋아요</a>
+      {% endif %}
+    </p>
+
+    <p>카테고리-
+      {% for category in post.category.all %}
+      [{{category.name}}]
+      {% empty %}
+      선택한 카테고리 없음
+      {% endfor %}
+    </p>
+
     <p>댓글 수: {{post.comments.count}}</p>
     {% for comment in post.comments.all %}
     <p>{{comment.author.nickname}} : {{comment.content}}</p>
