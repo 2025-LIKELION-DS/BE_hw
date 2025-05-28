@@ -10,6 +10,22 @@
     <p>내용 - {{ post.content }}</p>
     <p>작성일 - {{ post.created_at }}</p>
     <p>작성자: {{ post.author.nickname }}</p>
+
+    <p>좋아요: {{ post.like.count }} <br>
+      {% if request.user in post.like.all %}
+        <a href="{% url 'blog:like' post.id %}">좋아요 취소</a>
+      {% else %}
+        <a href="{% url 'blog:like' post.id %}">좋아요</a>
+      {% endif %}
+
+    <p>카테고리 -
+      {% for category in post.category.all %}
+          [{{ category.name }}]
+      {% empty %}
+          선택한 카테고리 없음
+      {% endfor %}
+    </p>
+
     <hr />
     <br />
     {% if request.user == post.author %}
