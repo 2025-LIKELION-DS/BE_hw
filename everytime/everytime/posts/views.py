@@ -5,25 +5,24 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def main(request):
-    posts=Post.objects.all().order_by('-id')
+    posts=Post.objects.all().order_by('-created_at')
     return render(request,'posts/main.html',{'posts':posts})
 
 @login_required
 def create(request):
-    if request.method=="POST":
-        title=request.POST.get('title')
-        content=request.POST.get('content')
-        is_anonymouse=request.POST.get('is_anonymouse')=='on'
-        
-        Post.objects.create(
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        is_anonymouse = 'is_anonymouse' in request.POST
+
+        post = Post.objects.create(
             title=title,
             content=content,
             author=request.user,
             is_anonymouse=is_anonymouse
         )
-
         return redirect('posts:main')
-    return redirect('posts:main')
+    return render(request, 'posts/main.html')
 
 def detail(request,id):
     post=get_object_or_404(Post,id=id)
@@ -35,7 +34,7 @@ def update(request, id):
     if request.method=="POST":
         post.title=request.POST.get('title')
         post.content=request.POST.get('content')
-        post.is_anonymouse=request.POST.get('is_anonymouse')=='on'
+        post.is_anonymouse = 'is_anonymouse' in request.POST
         post.save()
         return redirect('posts:detail',id)
     return render(request,'posts/update.html',{'post':post})
@@ -50,7 +49,7 @@ def create_comment(request, post_id):
     post=get_object_or_404(Post,id=post_id)
     if request.method=="POST":
         content=request.POST.get('content')
-        is_anonymouse=request.POST.get('is_anonymouse')=='on'
+        is_anonymouse = 'is_anonymouse' in request.POST
 
         Comment.objects.create(
             post=post, # 어떤 글에 댓글 달렸는지
@@ -60,8 +59,8 @@ def create_comment(request, post_id):
         )
 
         return redirect('posts:detail',post_id)
-    return redirect('posts:detail')
 
+@login_required
 def delete_comment(request, comment_id):
     comment=get_object_or_404(Comment,id=comment_id)
     post_id=comment.post.id

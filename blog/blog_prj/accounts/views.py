@@ -17,7 +17,7 @@ def signup(request):
         return redirect('accounts:login')
     else:
         return render(request,'accounts/signup.html',{'form':form})
-    
+
 def login(request):
     if request.method=="GET":
         return render(request,'accounts/login.html',{'form':AuthenticationForm})
@@ -43,3 +43,8 @@ def myblog(request):
     # posts=request.user.posts.all().order_by('-id') => 정참조 방식
     posts = Post.objects.filter(author=request.user).order_by('-id') # filter 메소드 사용
     return render(request,'accounts/myblog.html',{'posts':posts})
+
+def mylike(request):
+    # liked_posts=request.user.like_posts.all().order_by('-id') - 역참조 방식
+    liked_posts=Post.objects.filter(like=request.user).order_by('-id') # 정참조
+    return render(request,'accounts/mylike.html',{'liked_posts':liked_posts})
