@@ -11,6 +11,13 @@
         {% csrf_token %}
         제목 - <input type="text" name="title"><br><br>
         내용 - <textarea name="content"></textarea><br><br>
+
+        카테고리 - 
+        <select name="category" multiple>
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{category.name}}</option>
+            {% endfor %}
+        </select>
         <input type="submit" value="작성하기">
     </form>
 </body>
