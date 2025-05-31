@@ -43,6 +43,12 @@ def mypage(request):
 def user_info(request):
     return render(request,'accounts/user_info.html')
 
+# 내가 작성한 글
 def mypost(request):
     myposts=request.user.posts.all().order_by('-created_at')
     return render(request,'accounts/mypost.html',{'myposts':myposts})
+
+# 내가 스크랩한 글
+def myscrap(request):
+    scraped_posts=request.user.scraped_posts.all().order_by('-id') 
+    return render(request,'accounts/myscrap.html',{'scraped_posts':scraped_posts})
