@@ -31,6 +31,25 @@
         <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
     {% endif %}
 
+    <p>공감: {{ post.like.count }}개 스크랩: {{ post.scrap.count }}개</p>
+    <form method="POST" action="{% url 'posts:like' post.id %}">
+        {% csrf_token %}
+        {% if request.user in post.like.all %}
+            <button type="submit">공감 취소</button>
+        {% else %}
+            <button type="submit">공감 하기</button>
+        {% endif %}
+    </form>
+
+    <form method="POST" action="{% url 'posts:scrap' post.id %}">
+        {% csrf_token %}
+        {% if request.user in post.scrap.all %}
+            <button type="submit">스크랩 취소</button>
+        {% else %}
+            <button type="submit">스크랩 하기</button>
+        {% endif %}
+    </form>
+
     <hr>
 
     <p>댓글</p><br>

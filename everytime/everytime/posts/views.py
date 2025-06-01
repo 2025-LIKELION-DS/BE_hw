@@ -1,13 +1,43 @@
 from django.shortcuts import render, redirect
-from .models import Post, Comment
+from .models import *
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def main(request):
-    posts = Post.objects.all().order_by('-id')
-    return render(request, 'posts/main.html', {'posts': posts})
+    categories = Category.objects.all()
 
+    category_posts = {}
+
+    for category in categories:
+        posts = category.posts.order_by('-created_at')[:4]
+        category_posts[category] = posts
+    return render(request, 'posts/main.html', {'categories' : categories, 'category_posts':category_posts})
+
+def category(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        is_anonymous = 'is_anonymous' in request.POST
+
+        post = Post.objects.create(
+            title = title,
+            content = content,
+            is_anonymous = is_anonymous,
+            author = request.user,
+        )
+
+        PostCategory.objects.create(
+            post = post,
+            category = category
+        )
+        return redirect('posts:category', slug=slug)
+    
+    posts = category.posts.all().order_by('-created_at')
+    return render(request, 'posts/category.html', {'category': category, 'posts':posts})
+    
 @login_required
 def create_comment(request, post_id):
     post=get_object_or_404(Post, id=post_id)
@@ -67,3 +97,24 @@ def delete_comment(request, comment_id):
     comment.delete()
     return redirect('posts:detail', post_id)
 
+def like(request, post_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id = post_id)
+        user = request.user
+
+        if user in post.like.all():
+            post.like.remove(user)
+        else:
+            post.like.add(user)
+    return redirect('posts:detail', post_id)
+
+def scrap(request, post_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id = post_id)
+        user = request.user
+
+        if user in post.scrap.all():
+            post.scrap.remove(user)
+        else:
+            post.scrap.add(user)
+    return redirect('posts:detail', post_id)
