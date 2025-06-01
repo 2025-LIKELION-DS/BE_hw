@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for post in scrapped_posts %}
+        <h2><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></h2>
+        {{ post.content }}<br><br>
+        작성일 - {{ post.created_at }}<br><br>
+        작성자 - {% if post.is_anonymous %}<br><br>
+            익명
+        {% else %}
+            {{ post.author }}
+        {% endif %} 
+            <br>
+    {% empty %}
+        스크랩한 글이 없습니다
+    {% endfor %}
+</body>
+</html>

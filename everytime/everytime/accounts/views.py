@@ -38,8 +38,12 @@ def mypage(request):
 def user_info(request):
     return render(request, 'accounts/user_info.html')
 
-
 def mypost(request):
     nickname = request.user.nickname
     my_posts = Post.objects.filter(author=nickname).order_by('-created_at')
     return render(request, 'accounts/mypost.html', {'my_posts': my_posts})
+
+def myscrap(request):
+    user = request.user
+    scrapped_posts = user.scrap_posts.all().order_by('-created_at')
+    return render(request, 'accounts/myscrap.html', {'scrapped_posts': scrapped_posts})
