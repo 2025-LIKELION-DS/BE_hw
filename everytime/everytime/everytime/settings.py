@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'users',
     'posts',
+    'django.contrib.humanize',# naturaltime필터 사용시 선언 필요
 ]
 
 MIDDLEWARE = [

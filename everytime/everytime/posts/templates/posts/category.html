@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'posts:main' %}">메인페이지로 돌아가기</a>
+    <br/>
+    <br/>
+    <!-- 로그인 된 경우 -->
+    {% if request.user.is_authenticated %} 
+    nickname: {{ request.user.nickname }} 
+    <br />
+    <br />
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <br/>
+    <hr/>
+
+    <!-- 카테고리(비밀/새내기/자유 게시판) -->
+    <h1>{{ category.name }}</h1>
+
+    <!-- 카테고리별 글 작성 -->
+    <form method="POST" action="{% url 'posts:create' %}">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="제목 입력"/>
+    <br/>
+    <textarea name="content" placeholder="본문 입력"></textarea>
+    <br/>
+    <input type="checkbox" name="is_anonymouse"/>익명
+    <!-- 카테고리 넘김 -->
+    <input type="hidden" name="category" value="{{ category.id }}"/>
+    <input type="submit" value="작성 완료"/>
+    </form>
+    <hr/>
+
+    <!-- 로그인 하지 않은 경우 -->
+    {% else %}
+    <br />
+    <br />
+    <a href="{% url 'accounts:login' %}">로그인</a>
+    <a href="{% url 'accounts:signup' %}">회원가입</a>
+    <hr/>
+    {% endif %}
+
+    <!-- naturaltime 필터 사용시 선언 필요 -->
+    {% load humanize %}
+
+    <!-- 카테고리별 글 정렬 -->
+    {% for post in posts %}
+    <h2><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></h2>
+    {{ post.content }}
+    <br/>
+    {{ post.created_at|naturaltime }} <!-- 현재 기준 얼마 전 -->
+    <br/>
+    <hr/>
+    {% empty %}
+    작성된 글이 없습니다
+    {% endfor %}
+</body>
+</html>
