@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <p>
-    <a href="{% url 'posts:main' %}">매인 페이지로 돌아가기</a>
+    <a href="{% url 'posts:main' %}">메인 페이지로 돌아가기</a>
     <br />
     <br />
-    닉네임: {{post.author.nickname}} <br />
+    닉네임: {{user.nickname}} <br />
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr />
     <h2>{{post.title}}</h2>
@@ -21,24 +20,60 @@
     <strong>{{post.author}}</strong> <br />
     {% endif %} {% if request.user == post.author %}
     <a href="{% url 'posts:update' post.id %}">수정하기</a>
-    <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
+    <a href="{% url 'posts:delete' post.id %}">삭제하기</a> <br/>
     {% endif %}
+     공감 {{post.like.count}}개 스크랩 {{post.scrap.count}}개
+     
+     <div style="display: flex;">
+      {% if request.user in post.like.all %} 
+      <form action="{% url 'posts:like' post.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">공감 취소</button>
+        </form>
+      {% else %}
+        <form action="{% url 'posts:like' post.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">공감</button>
+        </form>
+      {% endif %}
+    
+    
+      {% if request.user in post.scrap.all %} 
+      <form action="{% url 'posts:scrap' post.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">스크랩 취소</button>
+        </form>
+      {% else %}
+        <form action="{% url 'posts:scrap' post.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">스크랩</button>
+        </form>
+      {% endif %}
+    </div> 
+    <!--{% if request.user in post.like.all %} 
+    <button type="submit">공감 취소</button>
+    {% else %}
+     <button type="submit">공감</button>
+     {% endif %} 각 버튼을 옆에 두고 싶어 버튼으로 코드를 짰을 땐 갯수가 안바뀌더라구요... 그래서 일단 검색해서 div 태그를 사용해봤는데... 이렇게 하는 게 맞을까요... -->
     <hr />
     <strong>댓글</strong> <br/><br/>
-   {% for comment in comments %}
+  
+  {% for comment in comments %}
   {% if comment.is_anonymous %}
-    익명: {{ comment.content }} {{comment.created_at}}
+    익명:
   {% else %}
-    {{comment.author.nickname}}: {{comment.content}} {{comment.created_at}}
+    {{comment.author.nickname}}:
   {% endif %}
+  {{comment.content}} {{comment.created_at}}
   
   {% if request.user == comment.author %}
-    <a href="{% url 'posts:delete-comment' comment.id %}">삭제하기</a>
+    <a href="{% url 'posts:delete-comment' post.id comment.id %}">삭제하기</a>
   {% endif %}
   <br/><br/>
 {% empty %}
   댓글이 없습니다.<br/><br/>
 {% endfor %}
+
     <form method="POST" action="{% url 'posts:create-comment' post.id %}">
       {% csrf_token %} 댓글 <input type="text" name="content" />
       <button type="submit">작성</button>

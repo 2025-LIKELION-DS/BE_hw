@@ -40,3 +40,7 @@ def user_info(request):
 def mypost(request):
     posts=Post.objects.all().order_by('-id')
     return render(request, 'accounts/mypost.html', {'posts':posts})
+
+def myscrap(request):
+    scraped_posts=request.user.scrap_posts.all().order_by('-id')
+    return render(request, 'accounts/myscrap.html', {'scraped_posts':scraped_posts})

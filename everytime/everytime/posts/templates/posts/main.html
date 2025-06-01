@@ -6,9 +6,14 @@
     <title>Document</title>
   </head>
   <body>
-    {% if request.user.is_authenticated %} nickname: {{request.user.nickname}}
+    <a href="{% url 'posts:category' 'secret' %}">비밀게시판</a>
+    <a href="{% url 'posts:category' 'freshman' %}">새내기게시판</a>
+    <a href="{% url 'posts:category' 'free' %}">자유게시판</a>
+    {% if request.user.is_authenticated %} 
     <br />
     <br />
+    nickname: {{request.user.nickname}} 
+    <br/>
     <a href="{% url 'accounts:mypage' %}">마이페이지</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr />
@@ -29,15 +34,23 @@
     {% endif %}
     <hr />
     <br />
-    {% for post in posts %}
-    <h2><a href="{% url 'posts:detail' post.id %}">{{post.title}}</a></h2>
-    <h3>{{post.content}}</h3>
-    <h3>{{post.created_at}}</h3>
-    {% if request.user == post.author %}
-    <a href="{% url 'posts:update' post.id %}">수정하기</a>
-    <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
-    <hr />
-    {% endif %} {% empty %} 등록된 글이 없습니다. <br />
+    <h3><a href="{% url 'posts:category' 'secret' %}">비밀게시판</a></h3>
+    {% for post in secret_posts %}
+    <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a><br>
+    {% empty %}
+    글이 없습니다.
     {% endfor %}
-  </body>
-</html>
+
+    <h3><a href="{% url 'posts:category' 'freshman' %}">새내기게시판</a></h3>
+    {% for post in freshman_posts %}
+    <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a><br>
+    {% empty %}
+    글이 없습니다.
+    {% endfor %}
+
+    <h3><a href="{% url 'posts:category' 'free' %}">자유게시판</a></h3>
+    {% for post in free_posts %}
+    <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a><br>
+    {% empty %}
+    글이 없습니다.
+    {% endfor %}

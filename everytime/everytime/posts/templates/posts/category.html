@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  {% load humanize %}
+  <a href="{% url 'posts:main' %}">메인 페이지로 돌아가기</a>
+    <br />
+    <br />
+    nickname: {{request.user.nickname}} 
+    <br/>
+    <a href="{% url 'accounts:mypage' %}">마이페이지</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr />
+    {% if categories.slug == "secret" %}
+    <h2>비밀게시판</h2>
+    {% elif categories.slug == "free" %}
+    <h2>자유게시판</h2>
+    {% else %}
+    <h2>새내기게시판</h2>
+    {% endif %}
+    <form method="POST" action="{% url 'posts:category' categories.slug %}">
+      {% csrf_token %}
+      <input type="text" name="title" placeholder="제목 입력" /> <br />
+      <textarea name="content" rows="2" placeholder="본문 입력"></textarea>
+      <br />
+      <br />
+      <input type="checkbox" name="is_anonymous" />익명
+      <button type="submit">작성 완료</button>
+    </form>
+    <hr />
+    <br />
+    {% if categories.slug == "secret" %}
+      {% for post in posts %}
+      <h3><a href="{% url 'posts:detail' post.id %}">{{post.title}}</a></h3>
+      {{post.content}}<br/><br/>
+      {{ post.created_at|naturaltime }}
+      <hr>
+      {% empty %}
+      글이 없습니다.
+      {% endfor %}
+    {% elif categories.slug == "free" %}
+      
+      {% for post in posts %}
+      <h3><a href="{% url 'posts:detail' post.id %}">{{post.title}}</a></h3>
+      {{post.content}}<br/><br/>
+      {{ post.created_at|naturaltime }}
+      <hr>
+      {% empty %}
+      글이 없습니다.
+      {% endfor %}
+    {% else %}
+  
+      {% for post in posts %}
+      <h3><a href="{% url 'posts:detail' post.id %}">{{post.title}}</a></h3>
+      {{post.content}}<br/><br/>
+      {{ post.created_at|naturaltime }}
+      <hr>
+      {% empty %}
+      글이 없습니다.
+      {% endfor %}
+    {% endif %}
+  </body>
+</html>
+
