@@ -25,6 +25,20 @@
     <a href="{% url 'posts:update' post.id %}">수정하기</a>
     <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
     {% endif %}
+    <br>
+    <p>공감 {{ post.like.count }}개 스크랩 {{ post.scrap.count }}개</p>
+    {% if request.user in post.like.all %}
+    <a href="{% url 'posts:like' post.id %}"><button>공감 취소</button></a>
+    {% else %}
+    <a href="{% url 'posts:like' post.id %}"><button>공감</button></a>
+    {% endif %}
+
+    {% if request.user in post.scrap.all %}
+    <a href="{% url 'posts:scrap' post.id %}"><button>스크랩 취소</button></a>
+    {% else %}
+    <a href="{% url 'posts:scrap' post.id %}"><button>스크랩</button></a>
+    {% endif %}
+
     <hr>
 
     <p><b>댓글</b></p><br>

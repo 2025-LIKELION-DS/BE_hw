@@ -38,3 +38,7 @@ def mypost(request):
 
 def user_info(request):
     return render(request, 'accounts/user_info.html')
+
+def myscrap(request):
+    posts = request.user.posts_scrap.all().order_by('-id')
+    return render(request, 'accounts/myscrap.html', {'posts':posts})
