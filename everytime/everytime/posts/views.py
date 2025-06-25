@@ -22,6 +22,8 @@ def create(request):
         title = request.POST.get('title')
         content = request.POST.get('content')
         is_anonymouse = 'is_anonymouse' in request.POST
+        image=request.FILES.get('image')
+        video=request.FILES.get('video')
 
         category_ids=request.POST.getlist('category')
         category_list=[get_object_or_404(Category,id=category_id)for category_id in category_ids]
@@ -30,7 +32,9 @@ def create(request):
             title=title,
             content=content,
             author=request.user,
-            is_anonymouse=is_anonymouse
+            is_anonymouse=is_anonymouse,
+            image=image,
+            video=video
         )
 
         for category in category_list:
@@ -50,6 +54,17 @@ def update(request, id):
         post.title=request.POST.get('title')
         post.content=request.POST.get('content')
         post.is_anonymouse = 'is_anonymouse' in request.POST
+        image=request.FILES.get('image')
+        video=request.FILES.get('video')
+
+        if image:
+            post.image.delete()
+            post.image=image
+
+        if video:
+            post.video.delete()
+            post.video=video
+
         post.save()
         return redirect('posts:detail',id)
     return render(request,'posts/update.html',{'post':post})

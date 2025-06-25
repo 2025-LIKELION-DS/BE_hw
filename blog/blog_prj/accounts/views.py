@@ -37,6 +37,13 @@ def mypage(request):
     return render(request,'accounts/mypage.html')
 
 def user_info(request):
+    if request.method=="POST":
+        profile_image=request.FILES.get('profile_image')
+        if profile_image:
+            request.user.profile_image.delete()
+            request.user.profile_image=profile_image
+            request.user.save()
+            
     return render(request,'accounts/user_info.html')
 
 def myblog(request):
@@ -48,3 +55,4 @@ def mylike(request):
     # liked_posts=request.user.like_posts.all().order_by('-id') - 역참조 방식
     liked_posts=Post.objects.filter(like=request.user).order_by('-id') # 정참조
     return render(request,'accounts/mylike.html',{'liked_posts':liked_posts})
+    

@@ -22,12 +22,14 @@
     <h1>{{ category.name }}</h1>
 
     <!-- 카테고리별 글 작성 -->
-    <form method="POST" action="{% url 'posts:create' %}">
+    <form method="POST" action="{% url 'posts:create' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="text" name="title" placeholder="제목 입력"/>
     <br/>
     <textarea name="content" placeholder="본문 입력"></textarea>
     <br/>
+    이미지 - <input type="file" name="image"/><br/><br/>
+    동영상 - <input type="file" name="video"/><br/><br/>
     <input type="checkbox" name="is_anonymouse"/>익명
     <!-- 카테고리 넘김 -->
     <input type="hidden" name="category" value="{{ category.id }}"/>
@@ -53,6 +55,8 @@
     {{ post.content }}
     <br/>
     {{ post.created_at|naturaltime }} <!-- 현재 기준 얼마 전 -->
+    <br/>
+    댓글 {{ post.comments.count }} 공감 {{ post.like.count }}
     <br/>
     <hr/>
     {% empty %}

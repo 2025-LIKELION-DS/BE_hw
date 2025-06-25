@@ -23,6 +23,15 @@
     <br/>
     <h3>{{ post.content }}</h3>
     <br/>
+    {% if post.image %}
+        <img width="320" height="240" src="{{ post.image.url }}">
+    {% endif %}
+    {% if post.video %}
+        <video width="320" height="240" controls>
+            <source src="{{ post.video.url }}" type="video/mp4">
+        </video>
+    {% endif %} 
+    <br/>
     <h4>{{ post.created_at }}</h4>
     <h5>{{ post.anonymouse }}</h5>
 
@@ -38,7 +47,7 @@
     </p>
 
     <!-- 공감 버튼 -->
-    <form action="{% url 'posts:like' post.id %}" method="post">
+    <form action="{% url 'posts:like' post.id %}" method="post" style="display: inline;">
     {% csrf_token %}
     {% if request.user in post.like.all %}
     <button type="submit">공감 취소</button>
@@ -48,7 +57,7 @@
     </form>
 
     <!-- 스크랩 버튼 -->
-    <form action="{% url 'posts:scrap' post.id %}" method="post">
+    <form action="{% url 'posts:scrap' post.id %}" method="post" style="display: inline;">
     {% csrf_token %}
     {% if request.user in post.scrap.all %}
     <button type="submit">스크랩 취소</button>
