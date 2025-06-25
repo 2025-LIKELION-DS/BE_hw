@@ -34,7 +34,7 @@ def category(request, slug):
         post.category.add(category)
 
         return redirect('posts:category', slug)
-    return render(request, 'posts/main.html', {'category': category, 'posts': posts})
+    return render(request, 'posts/category.html', {'category': category, 'posts': posts})
 
 @login_required
 def update_post(request, id):

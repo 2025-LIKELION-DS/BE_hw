@@ -6,9 +6,9 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{% url 'posts:category' 'secret' %}">비밀게시판</a>
-    <a href="{% url 'posts:category' 'freshman' %}">새내기게시판</a>
-    <a href="{% url 'posts:category' 'free' %}">자유게시판</a>
+{% for category in categories %}
+    <a href="{% url 'posts:category' category.slug %}">{{ category.name }}</a>
+{% endfor %}
     <br><br>
 
     {% if user.is_authenticated %}
@@ -21,7 +21,7 @@
     {% endif %}
     
     {% for category, posts in category_posts %}
-        <h3><a href="{% url 'posts:category' category.slug %}">{{category.name}}</a></h3>
+        <h3><a href="{% url 'posts:category' category.slug %}">{{ category.name }}</a></h3>
         {% for post in posts %}
             <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a><br><br>
         {% empty %} 글이 없습니다.
