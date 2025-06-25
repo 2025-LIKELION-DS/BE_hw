@@ -6,27 +6,27 @@
     <title>Document</title>
 </head>
 <body>
-    {% for category in categories %}
-        <a href="{% url 'posts:category' category.slug %}"> {{ category.name }}</a>
-    {% endfor %}
-        <br><br>
+    <a href="{% url 'posts:category' 'secret' %}">비밀게시판</a>
+    <a href="{% url 'posts:category' 'freshman' %}">새내기게시판</a>
+    <a href="{% url 'posts:category' 'free' %}">자유게시판</a>
+    <br><br>
 
     {% if user.is_authenticated %}
-        nickname : {{ user.nickname }}<br><br>
+        nickname : {{ request.user.nickname }} <br><br>
         <a href="{% url 'accounts:mypage' %}">마이페이지</a>
-        <a href="{% url 'accounts:logout' %}">로그아웃</a><hr><br>
+        <a href="{% url 'accounts:logout' %}">로그아웃</a><hr>
     {% else %}
-        <a href="{% url 'accounts:login' %}">로그인</a> |
-        <a href="{% url 'accounts:signup' %}">회원가입</a>
+        <a href="{% url 'accounts:login' %}">로그인</a>
+        <a href="{% url 'accounts:signup' %}">회원가입</a><hr>
     {% endif %}
-
+    
     {% for category, posts in category_posts %}
-        <h3><a href="{% url 'posts:category' category.slug %}">{{ category.name }}</a></h3>
+        <h3><a href="{% url 'posts:category' category.slug %}">{{category.name}}</a></h3>
         {% for post in posts %}
             <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a><br><br>
-        {% empty %}
-            글이 없습니다.
+        {% empty %} 글이 없습니다.
         {% endfor %}
     {% endfor %}
+        </h3>
 </body>
 </html>

@@ -7,10 +7,8 @@
 </head>
 <body>
     <a href="{% url 'posts:main' %}">메인페이지로 돌아가기</a><br><br>
-    {% if user.is_authenticated %}
     <p>nickname : {{ user.nickname }}</p>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    {% endif %}
 
     <hr>
 
@@ -26,7 +24,7 @@
     {% endif %}
     </h4>
 
-    {% if is_author %}
+    {% if post.author == user.username %}
         <a href="{% url 'posts:update' post.id %}">수정하기</a>
         <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
     {% endif %}
@@ -62,7 +60,7 @@
             {{ comment.author }}:
         {% endif %}
         {{ comment.content }} - {{ comment.created_at }}
-        {% if user.is_authenticated and comment.author == user.nickname %}
+        {% if comment.author == user.username %}
             <a href="{% url 'posts:delete_comment' comment.id %}">삭제하기</a>
         {% endif %}
         <br>
@@ -71,14 +69,12 @@
     {% endfor %}
 
     <!-- 댓글작성 -->
-    {% if user.is_authenticated %}
-    <form method="POST" action="{% url 'posts:detail' post.id %}">
+    <form method="POST" action="{% url 'posts:create_comment' post.id %}">
         {% csrf_token %}
         댓글 <input type="text" name="content">
         <button type="submit">작성</button>
-        <input type="checkbox" name="is_anonymous"> 익명
+        <input type="checkbox" name="anonymity"> 익명
     </form>
-    {% endif %}
     <hr>
 </body>
 </html>
