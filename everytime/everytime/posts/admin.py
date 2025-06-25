@@ -4,5 +4,7 @@ from .models import *
 # Register your models here.
 admin.site.register(Post)
 admin.site.register(Comment)
-admin.site.register(Category)
-admin
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}

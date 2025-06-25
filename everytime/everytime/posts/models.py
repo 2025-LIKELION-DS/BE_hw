@@ -1,5 +1,14 @@
 from django.db import models
 from users.models import User
+import os
+from uuid import uuid4
+from django.utils import timezone
+
+def upload_filepath(instance,filename):
+    today_str=timezone.now().strftime("%Y%m%d")
+    file_basename=os.path.basename(filename)
+    return f'{instance._meta.model_name}/{today_str}/{str(uuid4())}_{file_basename}'
+
 
 # Create your models here.
 class Category(models.Model):
@@ -19,6 +28,8 @@ class Post(models.Model):
     category=models.ManyToManyField(to=Category,through="PostCategory",related_name="category_posts")
     like=models.ManyToManyField(to=User,through="Like",related_name="liked_posts")
     scrap=models.ManyToManyField(to=User,through="Scrap",related_name="scraped_posts")
+    image=models.ImageField(upload_to=upload_filepath,blank=True)
+    video=models.FileField(upload_to=upload_filepath,blank=True)
 
     def __str__(self):
         return f'[{self.id}]{self.title}'
@@ -31,8 +42,8 @@ class Post(models.Model):
             return self.author.nickname
 
 class PostCategory(models.Model): # 새로운 필드 추가 없기에 따로 생성할 필요는 x
-    category=models.ForeignKey(to=Category,on_delete=models.CASCADE,related_name="post_categories")
-    post=models.ForeignKey(to=Post,on_delete=models.CASCADE,related_name="post_categories")
+    category=models.ForeignKey(to=Category,on_delete=models.CASCADE,related_name='categories_postcategory')
+    post=models.ForeignKey(to=Post,on_delete=models.CASCADE,related_name='posts_postcategory')
 
 
 class Comment(models.Model):
