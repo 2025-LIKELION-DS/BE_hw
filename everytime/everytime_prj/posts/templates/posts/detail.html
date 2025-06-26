@@ -15,6 +15,17 @@
     <p>{{ post.created_at }}</p>
     <p>{% if post.is_anonymous %}익명{% else %}{{ post.author.nickname }}{% endif %}</p>
 
+    <!--이미지/동영상-->
+    {% if post.image %}
+        <img width="320" height="240" src="{{ post.image.url }}">
+    {% endif %}
+    {% if post.video %}
+        <video width="320" height="240" controls>
+            <source src="{{ post.video.url }}" type="video/mp4">
+        </video>
+    {% endif %}
+
+
     <p>댓글 수: {{ post.comments.count }}</p><br>
     {% if request.user == post.author %}
     <a href="{% url 'posts:update' post.id %}">수정하기</a>

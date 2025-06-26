@@ -1,24 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2>글 수정</h2>
-    <form method="POST" action="{% url 'posts:update' post.id %}">
-        {% csrf_token %}
-        제목-<input type='text' value="{{ post.title }}" name='title'><br><br>
-        내용-<textarea name="content">{{ post.content }}</textarea><br><br>
+<form method="POST" action="{% url 'posts:update' post.id %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    제목: <input type="text" name="title" value="{{ post.title }}"><br>
+    내용: <textarea name="content">{{ post.content }}</textarea><br>
+    
+    익명: 
+    <input type="checkbox" name="is_anonymous" {% if post.is_anonymous %}checked{% endif %}><br>
 
-        <label>
-            <input type="checkbox" name="is_anonymous" {% if post.is_anonymous %}checked{% endif %}>
-            익명
-        </label><br><br>
+    {% if post.image %}
+        기존 이미지: <img src="{{ post.image.url }}" width="200"><br>
+    {% endif %}
+    이미지 변경: <input type="file" name="image"><br>
 
-        <input type="submit" value="수정하기">
-    </form>
+    {% if post.video %}
+        기존 비디오:
+        <video width="320" height="240" controls>
+            <source src="{{ post.video.url }}" type="video/mp4">
+        </video><br>
+    {% endif %}
+    비디오 변경: <input type="file" name="video"><br>
 
-</body>
-</html>
+    <input type="submit" value="수정하기">
+</form>

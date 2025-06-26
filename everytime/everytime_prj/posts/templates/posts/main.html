@@ -30,7 +30,8 @@
         {% for post in secret_posts %}
             <li>
                 <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
-                <small> - {{ post.created_at|naturaltime }}</small>
+                <small> - {{ post.created_at|naturaltime }}</small><br>
+                <small>댓글 {{ post.comments.count }}개 공감 {{ post.like.count }}개</small>
             </li>
         {% empty %}
             <li>게시글이 없습니다.</li>
@@ -42,7 +43,8 @@
         {% for post in freshman_posts %}
             <li>
                 <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
-                <small> - {{ post.created_at|naturaltime }}</small>
+                <small> - {{ post.created_at|naturaltime }}</small><br>
+                <small>댓글 {{ post.comments.count }}개 공감 {{ post.like.count }}개</small>
             </li>
         {% empty %}
             <li>게시글이 없습니다.</li>
@@ -54,7 +56,8 @@
         {% for post in free_posts %}
             <li>
                 <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
-                <small> - {{ post.created_at|naturaltime }}</small>
+                <small> - {{ post.created_at|naturaltime }}</small><br>
+                <small>댓글 {{ post.comments.count }}개 공감 {{ post.like.count }}개</small>
             </li>
         {% empty %}
             <li>게시글이 없습니다.</li>
