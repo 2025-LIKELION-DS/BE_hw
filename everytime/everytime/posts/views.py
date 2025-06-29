@@ -5,33 +5,46 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def main(request):
-    categories=Category.objects.all()
+    categories = Category.objects.all()
+    category_posts = []
+    # 카테고리별 최신 글 4개 저장 (리스트 형태)
+    for category in categories:
+        posts = Post.objects.filter(category=category).order_by('-id')[:4]
+        
+        # 딕셔너리로 (카테고리, 게시글 4개) 한 쌍을 만들어 리스트에 추가
+        category_posts.append({"category": category, "posts": posts})
 
-    secret_posts = Post.objects.filter(category__slug='secret').order_by('-id')[:4]
-    freshman_posts = Post.objects.filter(category__slug='freshman').order_by('-id')[:4]
-    free_posts = Post.objects.filter(category__slug='free').order_by('-id')[:4]
-    # category.slug='secret' 이런식은 안됨 언더바 두개로 연결... join이란 뜻 (근데 코드 이런 식으로 쓰는 거 좀 비효율적인 거 같아요... 어떻게 하면 좋을까요...) 
+    return render(request, 'posts/main.html', {'categories': categories, 'category_posts': category_posts})
     
-    return render(request, 'posts/main.html', {'categories':categories, 'secret_posts': secret_posts,'freshman_posts': freshman_posts,'free_posts': free_posts})
+
+def category(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    posts = Post.objects.filter(category=category).order_by('-id')
+
+    return render(request, 'posts/category.html', {'posts': posts, 'category': category})
 
 @login_required
-def create(request):
-    categories=Category.objects.all()
+def create_post(request, slug):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        category = Category.objects.get(slug=slug)
+        is_anonymous = 'is_anonymous' in request.POST
+        image=request.FILES.get('image')
+        video=request.FILES.get('video')
 
-    if request.method=='POST':
-        title=request.POST.get('title')
-        content=request.POST.get('content')
-        is_anonymous = request.POST.get('is_anonymous')== 'on'
-
-        Post.objects.create(
-            title=title,
-            content=content,
-            author=request.user,
-            is_anonymous=is_anonymous,
+        post = Post.objects.create(
+            title = title,
+            content = content,
+            is_anonymous = is_anonymous,
+            author = request.user,
+            image=image,
+            video=video,
         )
-        
-        return redirect('posts:main')
-    return render(request, 'posts/main.html', {'categories':categories})
+        post.category.add(category)
+
+        return redirect('posts:category', slug)
+    return render(request, 'posts/main.html', {'category': category})
 
 def detail(request, id):
     post=get_object_or_404(Post, id=id)
@@ -45,6 +58,17 @@ def update(request, id):
         post.tile=request.POST.get('title')
         post.content=request.POST.get("content")
         post.is_anonymous = request.POST.get('is_anonymous') =='on'
+        image=request.FILES.get('image')
+        video=request.FILES.get('video')
+
+        if image:
+            post.image.delete()
+            post.image=image
+
+        if video:
+            post.video.delete()
+            post.video=video
+
         post.save()
         return redirect('posts:detail', id)
     
@@ -93,12 +117,16 @@ def category(request, slug):
         title = request.POST.get('title')
         content = request.POST.get('content')
         is_anonymous = request.POST.get('is_anonymous') == 'on'
+        image=request.FILES.get('image')
+        video=request.FILES.get('video')
 
         post = Post.objects.create(
             title=title,
             content=content,
             is_anonymous=is_anonymous,
-            author=request.user
+            author=request.user,
+            image=image,
+            video=video,
         )
         post.category.add(categories)
 
@@ -108,14 +136,20 @@ def category(request, slug):
     return render(request, 'posts/category.html', {'categories': categories, 'posts':posts})
 
 @login_required
-def like(request, post_id):
+def add_like(request, post_id):
     post=get_object_or_404(Post, id=post_id)
     user=request.user
 
-    if post in user.like_posts.all(): 
-        post.like.remove(user)
-    else:
+    if post not in user.like_posts.all():
         post.like.add(user)
+    return redirect('posts:detail', post_id)
+
+def remove_like(request, post_id):
+    post=get_object_or_404(Post, id=post_id)
+    user=request.user
+
+    if post in user.like_posts.all():
+        post.like.remove(user)
     return redirect('posts:detail', post_id)
 
 @login_required

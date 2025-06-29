@@ -15,17 +15,13 @@
     <a href="{% url 'accounts:mypage' %}">마이페이지</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr />
-    {% if categories.slug == "secret" %}
-    <h2>비밀게시판</h2>
-    {% elif categories.slug == "free" %}
-    <h2>자유게시판</h2>
-    {% else %}
-    <h2>새내기게시판</h2>
-    {% endif %}
-    <form method="POST" action="{% url 'posts:category' categories.slug %}">
+    <h1>{{ category.name }}</h1>
+    <form method="POST" action="{% url 'posts:category' categories.slug %}" enctype="multipart/form-data">
       {% csrf_token %}
       <input type="text" name="title" placeholder="제목 입력" /> <br />
-      <textarea name="content" rows="2" placeholder="본문 입력"></textarea>
+      <textarea name="content" rows="2" placeholder="본문 입력"></textarea><br/>
+      이미지 <input type="file" name="image" /><br/>
+      동영상 <input type="file" name="video" /><br/>
       <br />
       <br />
       <input type="checkbox" name="is_anonymous" />익명
@@ -33,36 +29,15 @@
     </form>
     <hr />
     <br />
-    {% if categories.slug == "secret" %}
-      {% for post in posts %}
-      <h3><a href="{% url 'posts:detail' post.id %}">{{post.title}}</a></h3>
-      {{post.content}}<br/><br/>
-      {{ post.created_at|naturaltime }}
-      <hr>
-      {% empty %}
-      글이 없습니다.
-      {% endfor %}
-    {% elif categories.slug == "free" %}
-      
-      {% for post in posts %}
-      <h3><a href="{% url 'posts:detail' post.id %}">{{post.title}}</a></h3>
-      {{post.content}}<br/><br/>
-      {{ post.created_at|naturaltime }}
-      <hr>
-      {% empty %}
-      글이 없습니다.
-      {% endfor %}
-    {% else %}
-  
-      {% for post in posts %}
-      <h3><a href="{% url 'posts:detail' post.id %}">{{post.title}}</a></h3>
-      {{post.content}}<br/><br/>
-      {{ post.created_at|naturaltime }}
-      <hr>
-      {% empty %}
-      글이 없습니다.
-      {% endfor %}
-    {% endif %}
+    {% for post in posts %}
+    <h2><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></h2>
+    <p>{{ post.content }}</p>
+    <p>{{ post.created_at | naturaltime }}</p>
+    <p>댓글 {{post.comments.count}} 공감 {{post.like.count}}</p>
+    <hr>
+    {% empty %}
+    글이 없습니다.
+    {% endfor %}
   </body>
 </html>
 

@@ -13,6 +13,16 @@
     <hr />
     <h2>{{post.title}}</h2>
     <h3>{{post.content}}</h3>
+
+    {% if post.image %}
+    <img width="320" height="240" src="{{post.image.url}}">
+    {% endif %}
+    {% if post.video %}
+      <video width="320" height="240" controls>
+          <source src="{{post.video.url}}" type="video/mp4">
+          </video>
+    {% endif %}
+
     <h3>{{post.created_at}}</h3>
     {% if post.is_anonymous %}
     <strong>익명</strong> <br />
@@ -22,39 +32,20 @@
     <a href="{% url 'posts:update' post.id %}">수정하기</a>
     <a href="{% url 'posts:delete' post.id %}">삭제하기</a> <br/>
     {% endif %}
-     공감 {{post.like.count}}개 스크랩 {{post.scrap.count}}개
+     공감 {{post.like.count}}개 스크랩 {{post.scrap.count}}개 <br/>
      
-     <div style="display: flex;">
-      {% if request.user in post.like.all %} 
-      <form action="{% url 'posts:like' post.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">공감 취소</button>
-        </form>
-      {% else %}
-        <form action="{% url 'posts:like' post.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">공감</button>
-        </form>
-      {% endif %}
+      {% if request.user in post.like.all %}
+    <a href="{% url 'posts:remove-like' post.id %}"><input type="button" value="공감 취소" /></a>
+    {% else %}
+    <a href="{% url 'posts:add-like' post.id %}"><input type="button" value="공감" /></a>
+    {% endif %}
     
     
       {% if request.user in post.scrap.all %} 
-      <form action="{% url 'posts:scrap' post.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">스크랩 취소</button>
-        </form>
+      <a href="{% url 'posts:scrap' post.id %}"><input type="button" value="스크랩 취소"/></a>
       {% else %}
-        <form action="{% url 'posts:scrap' post.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">스크랩</button>
-        </form>
+      <a href="{% url 'posts:scrap' post.id %}"><input type="button" value="스크랩"/></a>
       {% endif %}
-    </div> 
-    <!--{% if request.user in post.like.all %} 
-    <button type="submit">공감 취소</button>
-    {% else %}
-     <button type="submit">공감</button>
-     {% endif %} 각 버튼을 옆에 두고 싶어 버튼으로 코드를 짰을 땐 갯수가 안바뀌더라구요... 그래서 일단 검색해서 div 태그를 사용해봤는데... 이렇게 하는 게 맞을까요... -->
     <hr />
     <strong>댓글</strong> <br/><br/>
   

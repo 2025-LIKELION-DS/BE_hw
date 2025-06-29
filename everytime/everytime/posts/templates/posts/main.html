@@ -16,17 +16,6 @@
     <br/>
     <a href="{% url 'accounts:mypage' %}">마이페이지</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    <hr />
-    <br />
-    <form method="POST" action="{% url 'posts:create' %}">
-      {% csrf_token %}
-      <input type="text" name="title" placeholder="제목 입력" /> <br />
-      <textarea name="content" rows="2" placeholder="본문 입력"></textarea>
-      <br />
-      <br />
-      <input type="checkbox" name="is_anonymous" />익명
-      <button type="submit">작성 완료</button>
-    </form>
     {% else %}
     <br />
     <a href="{% url 'accounts:login' %}">로그인</a>
@@ -34,23 +23,15 @@
     {% endif %}
     <hr />
     <br />
-    <h3><a href="{% url 'posts:category' 'secret' %}">비밀게시판</a></h3>
-    {% for post in secret_posts %}
-    <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a><br>
-    {% empty %}
-    글이 없습니다.
+        {% for category_data in category_posts %}
+        <h2><a href="{% url 'posts:category' category_data.category.slug %}">{{ category_data.category.name }}</a></h2>
+        {% if category_data.posts %}
+            {% for post in category_data.posts %}
+                <p><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></p>
+            {% endfor %}
+        {% else %}
+            <p>등록된 글이 없습니다</p>
+        {% endif %}
     {% endfor %}
-
-    <h3><a href="{% url 'posts:category' 'freshman' %}">새내기게시판</a></h3>
-    {% for post in freshman_posts %}
-    <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a><br>
-    {% empty %}
-    글이 없습니다.
-    {% endfor %}
-
-    <h3><a href="{% url 'posts:category' 'free' %}">자유게시판</a></h3>
-    {% for post in free_posts %}
-    <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a><br>
-    {% empty %}
-    글이 없습니다.
-    {% endfor %}
+    </body>
+    </html>
