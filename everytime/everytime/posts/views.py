@@ -21,12 +21,16 @@ def category(request, slug):
         title = request.POST.get('title')
         content = request.POST.get('content')
         is_anonymous = 'is_anonymous' in request.POST
+        image = request.FILES.get('image')
+        video = request.FILES.get('video')
 
         post = Post.objects.create(
             title = title,
             content = content,
             is_anonymous = is_anonymous,
             author = request.user,
+            image = image,
+            video = video
         )
 
         PostCategory.objects.create(
@@ -82,6 +86,16 @@ def update(request, id):
         post.title = request.POST.get('title')
         post.content = request.POST.get('content')
         post.is_anonymous = request.POST.get('is_anonymous') == 'true'
+        image = request.get('image')
+        video = request.get('video')
+
+        if image:
+            post.image.delete()
+            post.image = image
+        if video:
+            post.video.delete()
+            post.video = video
+            
         post.save()
         return redirect('posts:detail', id)
     return render(request, 'posts/update.html', {'post':post})
