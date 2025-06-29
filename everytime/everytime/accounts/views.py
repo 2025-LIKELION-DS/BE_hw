@@ -40,7 +40,7 @@ def user_info(request):
 
 def mypost(request):
     nickname = request.user.nickname
-    my_posts = Post.objects.filter(author=nickname).order_by('-created_at')
+    my_posts = Post.objects.filter(author=request.user).order_by('-created_at')
     return render(request, 'accounts/mypost.html', {'my_posts': my_posts})
 
 def myscrap(request):
