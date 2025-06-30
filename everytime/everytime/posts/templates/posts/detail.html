@@ -15,6 +15,15 @@
     <p> {{post.content}} </p>
     <p> {{post.created_at}} </p>
 
+    {% if post.image %}
+        <img width="320" height="240" src="{{ post.image.url }}">
+    {% endif %}
+    {% if post.video %}
+        <video width="320" height="240" controls>
+            <source src="{{ post.video.url }}" type="video/mp4">
+        </video>
+    {% endif %}
+
     {% if post.is_anonymous %}
         <p>익명</p>
     {% else %}
