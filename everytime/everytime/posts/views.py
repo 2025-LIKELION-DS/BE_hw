@@ -34,11 +34,16 @@ def create(request):
         is_anonymouse = request.POST.get('is_anonymouse') == 'true'
         category_id = request.POST.get('category_id')
         category = get_object_or_404(Category, id=category_id)
+        image=request.FILES.get('image')
+        video=request.FILES.get('video')
+
         post=Post.objects.create(
             title=title,
             content=content,
             author=request.user,
             is_anonymouse=is_anonymouse,
+            image=image,
+            video=video
         )
         post.category.add(category)
         return redirect('posts:category_list', slug=category.slug)
@@ -54,6 +59,19 @@ def update(request,id):
         post.title=request.POST.get('title')
         post.content=request.POST.get('content')
         post.is_anonymouse = request.POST.get('is_anonymouse')== 'true'
+        image = request.FILES.get('image')
+        video = request.FILES.get('video')
+        
+        if image: 
+            if post.image:  
+                post.image.delete()
+            post.image = image
+        
+        if video:  
+            if post.video:
+                post.video.delete()
+            post.video = video
+
         post.save()
         return redirect('posts:detail',id)
     return render(request,'posts/update.html',{'post':post})

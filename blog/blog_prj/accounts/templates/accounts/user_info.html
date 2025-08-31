@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,19 @@
 </head>
 <body>
     <a href="{% url 'blog:list' %}">홈으로</a>
+
+    {% if request.user.profile_image %}
+        <img width="200px" src="{{ request.user.profile_image.url }}" alt="Profile Image">
+    {% else %}
+        <img width="200px" src="{% static 'img/profile.png' %}" alt="Default Profile">
+    {% endif %}
+
+    <form method="POST" action="{% url 'accounts:user-info' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        이미지 변형 - <input type="file" name="profile_image"><br>
+        <button type="submit">프로필 이미지 변경하기</button>
+    </form>
+
     <p>username: {{request.user.username}}</p>
     <p>email: {{request.user.email}}</p>
     <p>nickname: {{request.user.nickname}}</p>

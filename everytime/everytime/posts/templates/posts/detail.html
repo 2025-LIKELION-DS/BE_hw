@@ -14,6 +14,16 @@
     <hr>
     <h2>{{ post.title }}</h2><br>
     <p>{{ post.content }}</p><br>
+
+    {% if post.image %}
+        <img width="320" height="240" src="{{ post.image.url }}">
+    {% endif %}
+    {% if post.video %}
+        <video width="320" height="240" controls>
+            <source src="{{ post.video.url }}" type="video/mp4">
+        </video>
+    {% endif %}
+
     <p>{{ post.created_at }}</p>
     <p>{% if post.is_anonymouse %}
         익명
